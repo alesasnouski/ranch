@@ -45,23 +45,7 @@ init([Ref, Transport, Logger]) ->
 start_listen_sockets(Ref, NumListenSockets, Transport, TransOpts0, Logger) when NumListenSockets > 0 ->
 	BaseSocket = start_listen_socket(Ref, Transport, TransOpts0, Logger),
 	{ok, Addr} = Transport:sockname(BaseSocket),
-	ExtraSockets = case Addr of
-		{local, _} when NumListenSockets > 1 ->
-			listen_error(Ref, Transport, TransOpts0, reuseport_local, Logger);
-		{local, _} ->
-			[];
-		{_, Port} ->
-			SocketOpts = maps:get(socket_opts, TransOpts0, []),
-			SocketOpts1 = case lists:keyfind(port, 1, SocketOpts) of
-				{port, Port} ->
-					SocketOpts;
-				_ ->
-					[{port, Port}|lists:keydelete(port, 1, SocketOpts)]
-			end,
-			TransOpts1 = TransOpts0#{socket_opts => SocketOpts1},
-			[{N, start_listen_socket(Ref, Transport, TransOpts1, Logger)}
-				|| N <- lists:seq(2, NumListenSockets)]
-	end,
+	ExtraSockets = [],
 	ranch_server:set_addr(Ref, Addr),
 	[{1, BaseSocket}|ExtraSockets].
 

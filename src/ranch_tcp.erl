@@ -95,7 +95,7 @@ listen(TransOpts) ->
 	%% We set the port to 0 because it is given in the Opts directly.
 	%% The port in the options takes precedence over the one in the
 	%% first argument.
-	gen_tcp:listen(0, ranch:filter_options(SocketOpts4, disallowed_listen_options(),
+	gen_tcp2:listen(0, ranch:filter_options(SocketOpts4, disallowed_listen_options(),
 		[binary, {active, false}, {packet, raw}, {reuseaddr, true}], Logger)).
 
 %% 'binary' and 'list' are disallowed but they are handled
@@ -107,7 +107,7 @@ disallowed_listen_options() ->
 -spec accept(inet:socket(), timeout())
 	-> {ok, inet:socket()} | {error, closed | timeout | atom()}.
 accept(LSocket, Timeout) ->
-	gen_tcp:accept(LSocket, Timeout).
+	gen_tcp2:accept(LSocket, Timeout).
 
 -spec handshake(inet:socket(), timeout()) -> {ok, inet:socket()}.
 handshake(CSocket, Timeout) ->
@@ -134,7 +134,7 @@ handshake_cancel(_) ->
 	inet:port_number(), any())
 	-> {ok, inet:socket()} | {error, atom()}.
 connect(Host, Port, Opts) when is_integer(Port) ->
-	gen_tcp:connect(Host, Port,
+	gen_tcp2:connect(Host, Port,
 		Opts ++ [binary, {active, false}, {packet, raw}]).
 
 %% @todo Probably filter Opts?
@@ -142,14 +142,14 @@ connect(Host, Port, Opts) when is_integer(Port) ->
 	inet:port_number(), any(), timeout())
 	-> {ok, inet:socket()} | {error, atom()}.
 connect(Host, Port, Opts, Timeout) when is_integer(Port) ->
-	gen_tcp:connect(Host, Port,
+	gen_tcp2:connect(Host, Port,
 		Opts ++ [binary, {active, false}, {packet, raw}],
 		Timeout).
 
 -spec recv(inet:socket(), non_neg_integer(), timeout())
 	-> {ok, any()} | {error, closed | atom()}.
 recv(Socket, Length, Timeout) ->
-	gen_tcp:recv(Socket, Length, Timeout).
+	gen_tcp2:recv(Socket, Length, Timeout).
 
 -spec recv_proxy_header(inet:socket(), timeout())
 	-> {ok, ranch_proxy_header:proxy_info()}
@@ -177,7 +177,7 @@ recv_proxy_header(Socket, Timeout) ->
 
 -spec send(inet:socket(), iodata()) -> ok | {error, atom()}.
 send(Socket, Packet) ->
-	gen_tcp:send(Socket, Packet).
+	gen_tcp2:send(Socket, Packet).
 
 -spec sendfile(inet:socket(), file:name_all() | file:fd())
 	-> {ok, non_neg_integer()} | {error, atom()}.
@@ -252,7 +252,7 @@ peername(Socket) ->
 -spec sockname(inet:socket())
 	-> {ok, {inet:ip_address(), inet:port_number()} | {local, binary()}} | {error, atom()}.
 sockname(Socket) ->
-	inet:sockname(Socket).
+	socket:sockname(Socket).
 
 -spec shutdown(inet:socket(), read | write | read_write)
 	-> ok | {error, atom()}.
@@ -261,4 +261,4 @@ shutdown(Socket, How) ->
 
 -spec close(inet:socket()) -> ok.
 close(Socket) ->
-	gen_tcp:close(Socket).
+	gen_tcp2:close(Socket).
