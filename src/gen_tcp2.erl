@@ -11,24 +11,20 @@ listen(Port, Opts) ->
     ok = socket:listen(LSock),
     {ok, LSock, OutPort}.
 
-accept(LSock) -> accept(LSock, infinity).
+% connect(SAddr, SPort, Opts) ->
+%     connect(SAddr, SPort, Opts, infinity).
 
-accept(LSock, Timeout) -> socket:accept(LSock, Timeout).
-
-connect(SAddr, SPort, Opts) ->
-    connect(SAddr, SPort, Opts, infinity).
-
-connect(localhost, SPort, Opts, Timeout) ->
-    connect(loopback, SPort, Opts, Timeout);
-connect(SAddr, SPort, Opts, Timeout) ->
-    {ok, Sock} = socket:open(inet, stream, tcp),
-    Addr = proplists:get_value(ip, Opts, any),
-    {ok, _} = socket:bind(Sock,
-			  #{family => inet, addr => Addr}),
-    ok = socket:connect(Sock,
-			#{family => inet, addr => SAddr, port => SPort},
-			Timeout),
-    {ok, Sock}.
+% connect(localhost, SPort, Opts, Timeout) ->
+%     connect(loopback, SPort, Opts, Timeout);
+% connect(SAddr, SPort, Opts, Timeout) ->
+%     {ok, Sock} = socket:open(inet, stream, tcp),
+%     Addr = proplists:get_value(ip, Opts, any),
+%     {ok, _} = socket:bind(Sock,
+% 			  #{family => inet, addr => Addr}),
+%     ok = socket:connect(Sock,
+% 			#{family => inet, addr => SAddr, port => SPort},
+% 			Timeout),
+%     {ok, Sock}.
 
 send(Sock, Data) -> socket:send(Sock, Data).
 
