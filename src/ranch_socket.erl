@@ -74,8 +74,8 @@
 -type opts() :: [opt()].
 -export_type([opts/0]).
 
--spec name() -> tcp.
-name() -> tcp.
+-spec name() -> socket.
+name() -> socket.
 
 -spec secure() -> boolean().
 secure() ->
