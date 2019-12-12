@@ -86,11 +86,10 @@ messages() -> {tcp, tcp_closed, tcp_error, tcp_passive}.
 
 -spec listen(ranch:transport_opts(opts())) -> {ok, inet:socket()} | {error, atom()}.
 listen(Opts) ->
-	io:format("~p~n", [Opts]),
-    Port = maps:get(port, Opts),
-    Addr = maps:get(addr, Opts),
+	SocketOpts = maps:get(socket_opts, Opts),
+    Port = proplists:get_value(port, SocketOpts),
+    Addr = proplists:get_value(ip, SocketOpts),
     {ok, LSock} = socket:open(inet, stream, tcp),
-    Addr = proplists:get_value(ip, Opts, any),
     {ok, OutPort} = socket:bind(LSock,
                 #{family => inet, port => Port, addr => Addr}),
     ok = socket:listen(LSock),
