@@ -90,10 +90,10 @@ listen(Opts) ->
     Port = proplists:get_value(port, SocketOpts),
     Addr = proplists:get_value(ip, SocketOpts),
     {ok, LSock} = socket:open(inet, stream, tcp),
-    {ok, OutPort} = socket:bind(LSock,
+    {ok, _OutPort} = socket:bind(LSock,
                 #{family => inet, port => Port, addr => Addr}),
     ok = socket:listen(LSock),
-    {ok, LSock, OutPort}.
+    {ok, LSock}.
 
 %% 'binary' and 'list' are disallowed but they are handled
 %% specifically as they do not have 2-tuple equivalents.
