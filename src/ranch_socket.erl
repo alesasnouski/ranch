@@ -104,11 +104,8 @@ disallowed_listen_options() ->
 
 -spec accept(inet:socket(), timeout())
 	-> {ok, inet:socket()} | {error, closed | timeout | atom()}.
-accept(LSocket, Timeout) ->
-	io:format("~p ~p ~n", ["ACCEPTING with timeout: ", Timeout]),
-	Accepted = socket:accept(LSocket, Timeout),
-	io:format("~p~n", [Accepted]),
-	Accepted.
+accept(LSocket, _Timeout) ->
+	socket:accept(LSocket).
 
 -spec handshake(inet:socket(), timeout()) -> {ok, inet:socket()}.
 handshake(CSocket, Timeout) ->
