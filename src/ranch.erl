@@ -74,11 +74,15 @@ start_listener(Ref, Transport, TransOpts0, Protocol, ProtoOpts)
 		when is_atom(Transport), is_atom(Protocol) ->
 	TransOpts = normalize_opts(TransOpts0),
 	_ = code:ensure_loaded(Transport),
+	io:format("~p~n", ["Ensure loaded"]),
 	case {erlang:function_exported(Transport, name, 0), validate_transport_opts(TransOpts)} of
 		{true, ok} ->
 			ChildSpec = #{id => {ranch_listener_sup, Ref}, start => {ranch_listener_sup, start_link, [
 				Ref, Transport, TransOpts, Protocol, ProtoOpts
 			]}, type => supervisor},
+
+			io:format("~p~n", [ChildSpec]),
+
 			maybe_started(supervisor:start_child(ranch_sup, ChildSpec));
 		{false, _} ->
 			{error, {bad_transport, Transport}};
