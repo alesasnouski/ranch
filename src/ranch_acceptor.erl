@@ -39,6 +39,7 @@ loop(LSocket, Transport, Logger, ConnsSup, MonitorRef) ->
 				ok ->
 					%% This call will not return until process has been started
 					%% AND we are below the maximum number of connections.
+					io:format("~p~n", ["STARTING PROTOCOL"]),
 					ranch_conns_sup:start_protocol(ConnsSup, MonitorRef,
 						CSocket);
 				{error, _} ->
