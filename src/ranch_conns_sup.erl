@@ -117,6 +117,7 @@ init(Parent, Ref, Id, Transport, TransOpts, Protocol, Logger) ->
 loop(State=#state{parent=Parent, ref=Ref, conn_type=ConnType,
 		transport=Transport, protocol=Protocol, opts=Opts,
 		max_conns=MaxConns, logger=Logger}, CurConns, NbChildren, Sleepers) ->
+	io:format("~p~n", ["Inside loop"]),		
 	receive
 		{?MODULE, start_protocol, To, Socket} ->
 			try Protocol:start_link(Ref, Transport, Opts) of
