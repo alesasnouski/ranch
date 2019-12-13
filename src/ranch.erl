@@ -238,6 +238,7 @@ handshake_transport(Transport, Fun, CSocket, {opts, Opts}, Timeout) ->
 	Transport:Fun(CSocket, Opts, Timeout).
 
 handshake_result(Result, Ref, Transport, CSocket, Timeout) ->
+	io:format("HANDSHAKE RESULT ~p~n", [Result]),
 	case Result of
 		OK = {ok, _} ->
 			OK;
