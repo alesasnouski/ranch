@@ -111,14 +111,17 @@ accept(LSocket, _Timeout) ->
 
 -spec handshake(inet:socket(), timeout()) -> {ok, inet:socket()}.
 handshake(CSocket, Timeout) ->
+	io:format("~p~n", ["HAndshake 0"]),
 	handshake(CSocket, [], Timeout).
 
 -spec handshake(inet:socket(), opts(), timeout()) -> {ok, inet:socket()}.
 handshake(CSocket, _, _) ->
+	io:format("~p~n", ["HAndshake 1"]),
 	{ok, CSocket}.
 
 -spec handshake_continue(inet:socket(), timeout()) -> no_return().
 handshake_continue(CSocket, Timeout) ->
+	io:format("~p~n", ["HAndshake cont"]),
 	handshake_continue(CSocket, [], Timeout).
 
 -spec handshake_continue(inet:socket(), opts(), timeout()) -> no_return().
