@@ -241,7 +241,7 @@ handshake(State=#state{ref=Ref, transport=Transport, handshake_timeout=Handshake
 		max_conns=MaxConns}, CurConns, NbChildren, Sleepers, To, Socket, SupPid, ProtocolPid) ->
 	case Transport:controlling_process(Socket, ProtocolPid) of
 		ok ->
-			io:format("~p~n", ["got controlling process!"]),	
+			io:format("~p  ~p ~p  ~n", ["got controlling process!", To, erlang:process_info(To)]),	
 			ProtocolPid ! {handshake, Ref, Transport, Socket, HandshakeTimeout},
 			put(SupPid, active),
 			CurConns2 = CurConns + 1,
