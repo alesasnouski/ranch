@@ -93,7 +93,6 @@ listen(Opts) ->
     {ok, _OutPort} = socket:bind(LSock,
                 #{family => inet, port => Port, addr => Addr}),
 	ok = socket:listen(LSock),
-	io:format("~p ~p ~n", [Addr, Port]),
     {ok, LSock}.
 
 %% 'binary' and 'list' are disallowed but they are handled
@@ -105,7 +104,9 @@ disallowed_listen_options() ->
 -spec accept(inet:socket(), timeout())
 	-> {ok, inet:socket()} | {error, closed | timeout | atom()}.
 accept(LSocket, _Timeout) ->
-	socket:accept(LSocket).
+	Accepted = socket:accept(LSocket),
+	io:format("~p ~n", [Accepted]),
+	Accepted.
 
 -spec handshake(inet:socket(), timeout()) -> {ok, inet:socket()}.
 handshake(CSocket, Timeout) ->
