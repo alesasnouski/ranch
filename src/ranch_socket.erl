@@ -239,8 +239,8 @@ getstat(Socket, OptionNames) ->
 
 -spec controlling_process(inet:socket(), pid())
 	-> ok | {error, closed | not_owner | atom()}.
-controlling_process(Socket, Pid) ->
-	gen_tcp:controlling_process(Socket, Pid).  %% ???
+controlling_process(_Socket, _Pid) ->
+	ok.
 
 -spec peername(inet:socket())
 	-> {ok, {inet:ip_address(), inet:port_number()} | {local, binary()}} | {error, atom()}.
