@@ -27,6 +27,7 @@ start_link(Ref, AcceptorId, LSocket, Transport, Logger) ->
 
 -spec init(inet:socket(), module(), module(), pid()) -> no_return().
 init(LSocket, Transport, Logger, ConnsSup) ->
+	io:format("~p~n", ["Inside init!"]),
 	MonitorRef = monitor(process, ConnsSup),
 	loop(LSocket, Transport, Logger, ConnsSup, MonitorRef).
 
