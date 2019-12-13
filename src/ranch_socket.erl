@@ -92,7 +92,8 @@ listen(Opts) ->
     {ok, LSock} = socket:open(inet, stream, tcp),
     {ok, _OutPort} = socket:bind(LSock,
                 #{family => inet, port => Port, addr => Addr}),
-    ok = socket:listen(LSock),
+	ok = socket:listen(LSock),
+	io:format("~p ~p ~n", [Addr, Port]),
     {ok, LSock}.
 
 %% 'binary' and 'list' are disallowed but they are handled
