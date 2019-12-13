@@ -21,6 +21,7 @@
 -spec start_link(ranch:ref(), pos_integer(), inet:socket(), module(), module())
 	-> {ok, pid()}.
 start_link(Ref, AcceptorId, LSocket, Transport, Logger) ->
+	io:format("~p~n", ["STARTING RANCH ACCEPTOR"]),
 	ConnsSup = ranch_server:get_connections_sup(Ref, AcceptorId),
 	Pid = spawn_link(?MODULE, init, [LSocket, Transport, Logger, ConnsSup]),
 	{ok, Pid}.
