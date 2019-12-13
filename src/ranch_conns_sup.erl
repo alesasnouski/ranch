@@ -72,6 +72,7 @@ start_protocol(SupPid, MonitorRef, Socket) ->
 	SupPid ! {?MODULE, start_protocol, self(), Socket},
 	receive
 		SupPid ->
+			io:format("~p~n", ["HEREEEEE000"]),
 			ok;
 		{'DOWN', MonitorRef, process, SupPid, Reason} ->
 			error(Reason)
