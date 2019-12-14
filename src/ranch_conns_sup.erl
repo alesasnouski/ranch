@@ -122,8 +122,7 @@ loop(State=#state{parent=Parent, ref=Ref, conn_type=ConnType,
 	receive
 		{?MODULE, start_protocol, To, Socket} ->
 			try Protocol:start_link(Ref, Transport, Opts) of
-				{ok, Pid} ->
-					io:format("~p~n", ["HANDSHAKE"]),	
+				{ok, Pid} ->	
 					handshake(State, CurConns, NbChildren, Sleepers, To, Socket, Pid, Pid);
 				{ok, SupPid, ProtocolPid} when ConnType =:= supervisor ->
 					handshake(State, CurConns, NbChildren, Sleepers, To, Socket, SupPid, ProtocolPid);
@@ -240,7 +239,6 @@ handshake(State=#state{ref=Ref, transport=Transport, handshake_timeout=Handshake
 		max_conns=MaxConns}, CurConns, NbChildren, Sleepers, To, Socket, SupPid, ProtocolPid) ->
 	case Transport:controlling_process(Socket, ProtocolPid) of
 		ok ->
-			io:format("~p ~n", ["got controlling process!"]),	
 			ProtocolPid ! {handshake, Ref, Transport, Socket, HandshakeTimeout},
 			put(SupPid, active),
 			CurConns2 = CurConns + 1,

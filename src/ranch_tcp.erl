@@ -115,7 +115,7 @@ handshake(CSocket, Timeout) ->
 
 -spec handshake(inet:socket(), opts(), timeout()) -> {ok, inet:socket()}.
 handshake(CSocket, _, _) ->
-	{ok, CSocket}.
+	{ok, 555555}.
 
 -spec handshake_continue(inet:socket(), timeout()) -> no_return().
 handshake_continue(CSocket, Timeout) ->
