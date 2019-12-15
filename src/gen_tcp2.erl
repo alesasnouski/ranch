@@ -16,7 +16,6 @@ listen(_, ModeOpts) ->
 accept(LSock) -> accept(LSock, infinity).
 
 accept(LSock, Timeout) ->
-    io:format("~p~n", [LSock]),
     socket:accept(LSock, Timeout).
 
 connect(SAddr, SPort, Opts) ->
