@@ -70,7 +70,6 @@ start_link(Ref, Id, Transport, TransOpts, Protocol, Logger) ->
 -spec start_protocol(pid(), reference(), inet:socket()) -> ok.
 start_protocol(SupPid, MonitorRef, Socket) ->
 	SupPid ! {?MODULE, start_protocol, self(), Socket},
-	io:format("~p~n", ["HEREEEEE000"]),
 	receive
 		SupPid ->
 			ok;
