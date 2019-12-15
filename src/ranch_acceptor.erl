@@ -21,14 +21,12 @@
 -spec start_link(ranch:ref(), pos_integer(), inet:socket(), module(), module())
 	-> {ok, pid()}.
 start_link(Ref, AcceptorId, LSocket, Transport, Logger) ->
-	io:format("~p~n", ["STARTING RANCH ACCEPTOR"]),
 	ConnsSup = ranch_server:get_connections_sup(Ref, AcceptorId),
 	Pid = spawn_link(?MODULE, init, [LSocket, Transport, Logger, ConnsSup]),
 	{ok, Pid}.
 
 -spec init(inet:socket(), module(), module(), pid()) -> no_return().
 init(LSocket, Transport, Logger, ConnsSup) ->
-	io:format("~p~n", ["Inside init!"]),
 	MonitorRef = monitor(process, ConnsSup),
 	loop(LSocket, Transport, Logger, ConnsSup, MonitorRef).
 
@@ -40,7 +38,6 @@ loop(LSocket, Transport, Logger, ConnsSup, MonitorRef) ->
 				ok ->
 					%% This call will not return until process has been started
 					%% AND we are below the maximum number of connections.
-					io:format("~p~n", ["STARTING PROTOCOL"]),
 					ranch_conns_sup:start_protocol(ConnsSup, MonitorRef,
 						CSocket);
 				{error, _} ->
