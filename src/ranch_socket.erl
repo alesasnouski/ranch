@@ -138,7 +138,6 @@ connect(Host, Port, Opts) when is_integer(Port) ->
 	inet:port_number(), any(), timeout())
 	-> {ok, inet:socket()} | {error, atom()}.
 connect(Host, Port, Opts, Timeout) when is_integer(Port) ->
-	io:format("connect options :: ~p~n", [Opts]),
 	{ok, Sock} = socket:open(inet, stream, tcp),
 	{ok, _} = socket:bind(Sock, #{family => inet, addr => any}),
 	socket:connect(Sock, #{family => inet, addr => Host, port => Port}, Timeout).
