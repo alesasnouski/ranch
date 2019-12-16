@@ -32,10 +32,8 @@ init(LSocket, Transport, Logger, ConnsSup) ->
 
 -spec loop(inet:socket(), module(), module(), pid(), reference()) -> no_return().
 loop(LSocket, Transport, Logger, ConnsSup, MonitorRef) ->
-	io:format("Accepting on listening socket:: ~p~n", [LSocket]),
 	Res = case Transport:accept(LSocket, infinity) of
 		{ok, CSocket} ->
-			io:format("GOT Socket :: ~p~n", [CSocket]),
 			case Transport:controlling_process(CSocket, ConnsSup) of
 				ok ->
 					%% This call will not return until process has been started
