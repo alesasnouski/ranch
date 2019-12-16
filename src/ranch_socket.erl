@@ -104,6 +104,7 @@ disallowed_listen_options() ->
 -spec accept(inet:socket(), timeout())
 	-> {ok, inet:socket()} | {error, closed | timeout | atom()}.
 accept(LSocket, _Timeout) ->
+	io:format("~p~n", ["Socket Accept"]),
 	socket:accept(LSocket).
 
 -spec handshake(inet:socket(), timeout()) -> {ok, inet:socket()}.
@@ -237,8 +238,8 @@ getstat(Socket, OptionNames) ->
 
 -spec controlling_process(inet:socket(), pid())
 	-> ok | {error, closed | not_owner | atom()}.
-controlling_process(_Socket, _Pid) ->
-	ok.
+controlling_process(Socket, Pid) ->
+	socket:setopt(Socket, otp, controlling_process, Pid).
 
 -spec peername(inet:socket())
 	-> {ok, {inet:ip_address(), inet:port_number()} | {local, binary()}} | {error, atom()}.
