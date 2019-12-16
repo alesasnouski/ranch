@@ -106,7 +106,7 @@ disallowed_listen_options() ->
 accept(LSocket, Timeout) ->
 	case Timeout of
 		infinity -> socket:accept(LSocket);
-		Other -> socket:accept(LSocket, Timeout)
+		Other -> socket:accept(LSocket, Other)
 	end.
 
 -spec handshake(inet:socket(), timeout()) -> {ok, inet:socket()}.
