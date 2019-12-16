@@ -241,6 +241,7 @@ getstat(Socket, OptionNames) ->
 -spec controlling_process(inet:socket(), pid())
 	-> ok | {error, closed | not_owner | atom()}.
 controlling_process(Socket, Pid) ->
+	io:format("Setting new controlling process to socket ~p ~p ~n", [Pid, Socket]),
 	socket:setopt(Socket, otp, controlling_process, Pid).
 
 -spec peername(inet:socket())
