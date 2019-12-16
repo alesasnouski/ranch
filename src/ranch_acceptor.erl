@@ -32,15 +32,15 @@ init(LSocket, Transport, Logger, ConnsSup) ->
 
 -spec loop(inet:socket(), module(), module(), pid(), reference()) -> no_return().
 loop(LSocket, Transport, Logger, ConnsSup, MonitorRef) ->
-	_ = case Transport:accept(LSocket, infinity) of
+	io:format("Accepting on listening socket:: ~p~n", [LSocket]),
+	Res = case Transport:accept(LSocket, infinity) of
 		{ok, CSocket} ->
 			io:format("GOT Socket :: ~p~n", [CSocket]),
 			case Transport:controlling_process(CSocket, ConnsSup) of
 				ok ->
 					%% This call will not return until process has been started
 					%% AND we are below the maximum number of connections.
-					ranch_conns_sup:start_protocol(ConnsSup, MonitorRef,
-						CSocket);
+					ranch_conns_sup:start_protocol(ConnsSup, MonitorRef, CSocket);
 				{error, _} ->
 					Transport:close(CSocket)
 			end;
@@ -59,6 +59,7 @@ loop(LSocket, Transport, Logger, ConnsSup, MonitorRef) ->
 		{error, _} ->
 			ok
 	end,
+	io:format("~p~n", [Res]),
 	flush(Logger),
 	?MODULE:loop(LSocket, Transport, Logger, ConnsSup, MonitorRef).
 
