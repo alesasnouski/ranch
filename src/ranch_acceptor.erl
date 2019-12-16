@@ -32,7 +32,7 @@ init(LSocket, Transport, Logger, ConnsSup) ->
 
 -spec loop(inet:socket(), module(), module(), pid(), reference()) -> no_return().
 loop(LSocket, Transport, Logger, ConnsSup, MonitorRef) ->
-	Res = case Transport:accept(LSocket, infinity) of
+	_ = case Transport:accept(LSocket, infinity) of
 		{ok, CSocket} ->
 			case Transport:controlling_process(CSocket, ConnsSup) of
 				ok ->
@@ -57,7 +57,6 @@ loop(LSocket, Transport, Logger, ConnsSup, MonitorRef) ->
 		{error, _} ->
 			ok
 	end,
-	io:format("~p~n", [Res]),
 	flush(Logger),
 	?MODULE:loop(LSocket, Transport, Logger, ConnsSup, MonitorRef).
 
