@@ -34,6 +34,7 @@ init(LSocket, Transport, Logger, ConnsSup) ->
 loop(LSocket, Transport, Logger, ConnsSup, MonitorRef) ->
 	_ = case Transport:accept(LSocket, infinity) of
 		{ok, CSocket} ->
+			io:format("GOT Socket :: ~p~n", [CSocket]),
 			case Transport:controlling_process(CSocket, ConnsSup) of
 				ok ->
 					%% This call will not return until process has been started
