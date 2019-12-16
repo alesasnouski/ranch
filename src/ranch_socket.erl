@@ -90,9 +90,9 @@ listen(Opts) ->
     Port = proplists:get_value(port, SocketOpts),
     Addr = proplists:get_value(ip, SocketOpts),
     {ok, LSock} = socket:open(inet, stream, tcp),
-    {ok, _OutPort} = socket:bind(LSock,
-                #{family => inet, port => Port, addr => Addr}),
+    {ok, _OutPort} = socket:bind(LSock, #{family => inet, port => Port, addr => Addr}),
 	ok = socket:listen(LSock),
+	io:format("Calling listen on ~p~n", [LSock]),
     {ok, LSock}.
 
 %% 'binary' and 'list' are disallowed but they are handled
